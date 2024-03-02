@@ -33,16 +33,15 @@ client.on('ready', () => {
 });
 
 client.on('message_create', async (msg) => {
-    console.log("NUMERO (" + msg.from + "): " + msg.body)  
-
     // linha de teste
     const sender = msg.from.includes("85067794") ? msg.to : msg.from
-
-    if (msg.type === 'chat' && !clients.includes(msg.from)) {
+    const chat = await msg.getChat();
+    const isGroup = chat.isGroup;
+    if (msg.body === "oi" && !clients.includes(msg.from) && !isGroup){
         const atendente = atendentes[atendenteIndex]
         const message = `Olá! Você será atendido por ${atendente.nome}, ${atendente.bio}, para continuar o atendimento, clique no link a seguir: ${atendente.link}`;
         client.sendMessage(sender, message);
-        clients.push(msg.from)
+        clients.push(msg.from);
 
         if(atendenteIndex < atendentesLength - 1) {
             atendenteIndex++;
