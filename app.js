@@ -29,6 +29,7 @@ client.on('ready', () => {
 });
 
 client.on('message_create', async (msg) => {
+    console.log(msg)
     const sender = msg.from.includes("86549768") ? msg.to : msg.from
     const chat = await msg.getChat();
     const isGroup = chat.isGroup;
