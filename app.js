@@ -1,5 +1,4 @@
-const { Client,LocalAuth } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
+const { Client, LocalAuth } = require('whatsapp-web.js');
 const DatabaseService = require('./services/DatabaseService');
 
 const dbService = new DatabaseService('/home/marelso/Documents/projects/marelso/autozap-dashboard/composeApp/database.db');
@@ -16,11 +15,10 @@ dbService.getAllAttendants((err, attendants) => {
 });
 
 const client = new Client({
-    authStrategy: new LocalAuth()
-});
-
-client.on('qr', (qr) => {
-    qrcode.generate(qr, { small: true });
+    authStrategy: new LocalAuth({
+        clientId: 'client-one',
+        dataPath: 'auth'
+    })
 });
 
 client.on('ready', () => {
