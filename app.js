@@ -1,6 +1,5 @@
-const { Client } = require('whatsapp-web.js');
+const { Client,LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-const {LocalAuth } = require('whatsapp-web.js');
 const DatabaseService = require('./services/DatabaseService');
 
 const dbService = new DatabaseService('/home/marelso/Documents/projects/marelso/autozap-dashboard/composeApp/database.db');
@@ -30,7 +29,7 @@ client.on('ready', () => {
 
 client.on('message_create', async (msg) => {
     console.log(msg)
-    const sender = msg.from.includes("86549768") ? msg.to : msg.from
+    const sender = msg.from
     const chat = await msg.getChat();
     const isGroup = chat.isGroup;
 
