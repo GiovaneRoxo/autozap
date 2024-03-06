@@ -1,7 +1,7 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const DatabaseService = require('./services/DatabaseService');
 
-const dbService = new DatabaseService('../autozap-dashboard/composeApp/database.db');
+const dbService = new DatabaseService('../org.autozap.dashboard/database.db');
 
 let currentAttendantId = 0;
 let clients = [];
