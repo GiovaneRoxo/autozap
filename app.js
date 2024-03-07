@@ -6,8 +6,6 @@ const dbService = new DatabaseService('../org.autozap.dashboard/database.db');
 let currentAttendantId = 0;
 let clients = [];
 
-clients.push('555186549768@c.us')
-
 dbService.getAllAttendants((err, attendants) => {
     if (err) {
         console.error('Error fetching attendants from the database:', err);
@@ -27,21 +25,21 @@ client.on('ready', () => {
     console.log('Autozap está pronto!');
 });
 
-client.on('message_create', async (msg) => {
+client.on('message_received', async (msg) => {
     console.log(msg);
-    const sender = msg.from;
     const chat = await msg.getChat();
-    const isGroup = chat.isGroup;
-
-    if (!isGroup && !clients.includes(msg.from)){
-        dbService.getNextAttendantById(currentAttendantId, (err, attendant) => { 
-            let message = `Olá! Você será atendido por ${attendant.name}, ${attendant.bio}, para continuar o atendimento, clique no link a seguir: ${attendant.link}`;
-            client.sendMessage(sender, message);
-            clients.push(msg.from);
-            currentAttendantId = attendant.id;
-        })
+    try{
+        if (!chat.isGroup && !clients.includes(msg.from)){
+            dbService.getNextAttendantById(currentAttendantId, (err, attendant) => { 
+                let message = `Olá! Você será atendido por ${attendant.name}, ${attendant.bio}, para continuar o atendimento, clique no link a seguir: ${attendant.link}`;
+                client.sendMessage(msg.from, message);
+                clients.push(msg.from);
+                currentAttendantId = attendant.id;
+            })
+        }
+    }catch(e){
+        console.log(e);
     }
 });
-
 client.initialize();
 process.stdin.resume();
