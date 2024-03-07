@@ -37,7 +37,7 @@ client.on('message_create', async (msg) => {
         dbService.getNextAttendantById(currentAttendantId, (err, attendant) => { 
             let message = `Olá! Você será atendido por ${attendant.name}, ${attendant.bio}, para continuar o atendimento, clique no link a seguir: ${attendant.link}`;
             client.sendMessage(sender, message);
-            // clients.push(msg.from);
+            clients.push(msg.from);
             currentAttendantId = attendant.id;
         })
     }
