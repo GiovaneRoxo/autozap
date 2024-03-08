@@ -1,7 +1,7 @@
 const { Service } = require('node-windows');
 const { resolve } = require('path');
 
-const path = resolve('./app.js')
+const path = resolve('./services/listen.js')
 
 const service = new Service({
     name: 'autozap',
