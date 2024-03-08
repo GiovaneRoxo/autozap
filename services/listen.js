@@ -1,5 +1,5 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const DatabaseService = require('./services/DatabaseService');
+const DatabaseService = require('./DatabaseService');
 
 const dbService = new DatabaseService('../org.autozap.dashboard/database.db');
 
