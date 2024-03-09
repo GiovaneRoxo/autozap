@@ -1,7 +1,7 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const DatabaseService = require('./DatabaseService');
 
-const dbService = new DatabaseService('../../database.db');
+const dbService = new DatabaseService('./database.db');
 
 let currentAttendantId = 0;
 let clients = [];
