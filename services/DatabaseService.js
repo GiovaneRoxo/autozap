@@ -18,14 +18,15 @@ class DatabaseService {
     }
 
     getMessage(callback) {
-        this.db.get("SELECT message FROM message WHERE active = true LIMIT 1", (err, row) => {
+        let query = "SELECT message FROM message WHERE active = true LIMIT 1"
+        this.db.get(query, (err, row) => {
             if (err) {
                 return;
             }
             if (!row) {
                 return;
             }
-            callback(null, row.message)
+            callback(row.message)
         });
     }
 
