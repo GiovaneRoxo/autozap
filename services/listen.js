@@ -1,4 +1,4 @@
-const { Client, LocalAuth } = require('whatsapp-web.js');
+const {Client, LocalAuth} = require('whatsapp-web.js');
 const DatabaseService = require('./DatabaseService');
 
 const dbService = new DatabaseService('./database.db');
@@ -29,16 +29,20 @@ client.on('message', async (msg) => {
     const chat = await msg.getChat();
     const isGroup = chat.isGroup;
 
-    if (!isGroup && !clients.includes(msg.from)){
+    if (!isGroup && !clients.includes(msg.from)) {
         const sender = msg.from;
 
         console.log(msg);
 
-        dbService.getNextAttendantById(currentAttendantId, (err, attendant) => { 
-            let message = `Olá! Você será atendido por ${attendant.name}, ${attendant.bio}, para continuar o atendimento, clique no link a seguir: ${attendant.link}`;
-            client.sendMessage(sender, message);
-            clients.push(msg.from);
-            currentAttendantId = attendant.id;
+        dbService.getNextAttendantById(currentAttendantId, (err, attendant) => {
+            dbService.getMessage((msg) => {
+                console.log('From db: ' + msg)
+                let message = msg.replace('$nome', attendant.name).replace('$bio', attendant.bio).replace('$numero', attendant.link)
+                console.log('From conversion: ' + message)
+                client.sendMessage(sender, message);
+                clients.push(msg.from);
+                currentAttendantId = attendant.id;
+            })
         })
     }
 });
