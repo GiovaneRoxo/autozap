@@ -35,14 +35,14 @@ client.on('message', async (msg) => {
         console.log(msg);
 
         dbService.getNextAttendantById(currentAttendantId, (err, attendant) => {
-            dbService.getMessage((msg) => {
-                console.log('From db: ' + msg)
-                let message = msg.replace('$nome', attendant.name).replace('$bio', attendant.bio).replace('$numero', attendant.link)
-                console.log('From conversion: ' + message)
-                client.sendMessage(sender, message);
-                clients.push(msg.from);
+            dbService.getMessage((message) => {
+                console.log('From db: ' + message)
+                let appliedPatternMessage = message.replace('$nome', attendant.name).replace('$bio', attendant.bio).replace('$numero', attendant.link)
+                console.log('From conversion: ' + appliedPatternMessage)
+                client.sendMessage(sender, appliedPatternMessage);
                 currentAttendantId = attendant.id;
             })
+            clients.push(msg.from);
         })
     }
 });
