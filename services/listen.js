@@ -37,7 +37,11 @@ client.on('message', async (msg) => {
         dbService.getNextAttendantById(currentAttendantId, (err, attendant) => {
             dbService.getMessage((message) => {
                 console.log('From db: ' + message)
-                let appliedPatternMessage = message.replace('$nome', attendant.name).replace('$bio', attendant.bio).replace('$numero', attendant.link)
+
+                let appliedPatternMessage = message.replace('$nome', attendant.name)
+                    .replace('$bio', attendant.bio)
+                    .replace('$contato', attendant.link)
+
                 console.log('From conversion: ' + appliedPatternMessage)
                 client.sendMessage(sender, appliedPatternMessage);
                 currentAttendantId = attendant.id;
