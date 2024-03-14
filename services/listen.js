@@ -29,25 +29,39 @@ client.on('message', async (msg) => {
     const chat = await msg.getChat();
     const isGroup = chat.isGroup;
 
-    if (!isGroup && !clients.includes(msg.from)) {
-        const sender = msg.from;
+    if (!isGroup) {
+        if(clients.includes(msg.from)) {
+            dbService.getMessage((reply) => {
+                console.log(`Old client`)
+                console.log('From db: ' + reply)
 
-        console.log(msg);
-
-        dbService.getNextAttendantById(currentAttendantId, (err, attendant) => {
-            dbService.getMessage((message) => {
-                console.log('From db: ' + message)
-
-                let appliedPatternMessage = message.replace('$nome', attendant.name)
+                let appliedPatternMessage = reply.replace('$nome', attendant.name)
                     .replace('$bio', attendant.bio)
                     .replace('$contato', attendant.link)
 
                 console.log('From conversion: ' + appliedPatternMessage)
                 client.sendMessage(sender, appliedPatternMessage);
-                currentAttendantId = attendant.id;
             })
-            clients.push(msg.from);
-        })
+        }
+        else {
+            console.log("New customer: " + msg);
+            const sender = msg.from;
+
+            dbService.getNextAttendantById(currentAttendantId, (err, attendant) => {
+                dbService.getMessage((message) => {
+                    console.log('From db: ' + message)
+
+                    let appliedPatternMessage = message.replace('$nome', attendant.name)
+                        .replace('$bio', attendant.bio)
+                        .replace('$contato', attendant.link)
+
+                    console.log('From conversion: ' + appliedPatternMessage)
+                    client.sendMessage(sender, appliedPatternMessage);
+                    currentAttendantId = attendant.id;
+                })
+                clients.push(msg.from);
+            })
+        }
     }
 });
 
