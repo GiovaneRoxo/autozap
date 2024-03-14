@@ -28,9 +28,10 @@ client.on('ready', () => {
 client.on('message', async (msg) => {
     const chat = await msg.getChat();
     const isGroup = chat.isGroup;
+    const sender = msg.from;
 
     if (!isGroup) {
-        if(clients.includes(msg.from)) {
+        if(clients.includes(sender)) {
             dbService.getReply((reply) => {
                 console.log(`Old client`)
                 console.log('From db: ' + reply)
@@ -39,7 +40,6 @@ client.on('message', async (msg) => {
         }
         else {
             console.log("New customer: " + msg);
-            const sender = msg.from;
 
             dbService.getNextAttendantById(currentAttendantId, (err, attendant) => {
                 dbService.getMessage((message) => {
@@ -53,7 +53,7 @@ client.on('message', async (msg) => {
                     client.sendMessage(sender, appliedPatternMessage);
                     currentAttendantId = attendant.id;
                 })
-                clients.push(msg.from);
+                clients.push(sender);
             })
         }
     }
