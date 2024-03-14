@@ -34,13 +34,7 @@ client.on('message', async (msg) => {
             dbService.getReply((reply) => {
                 console.log(`Old client`)
                 console.log('From db: ' + reply)
-
-                let appliedPatternMessage = reply.replace('$nome', attendant.name)
-                    .replace('$bio', attendant.bio)
-                    .replace('$contato', attendant.link)
-
-                console.log('From conversion: ' + appliedPatternMessage)
-                client.sendMessage(sender, appliedPatternMessage);
+                client.sendMessage(sender, reply);
             })
         }
         else {
