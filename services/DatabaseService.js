@@ -30,7 +30,7 @@ class DatabaseService {
         });
     }
 
-    getMessage(callback) {
+    getReply(callback) {
         let query = "SELECT reply FROM reply WHERE active = true LIMIT 1"
         this.db.get(query, (err, row) => {
             if (err) {

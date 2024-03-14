@@ -31,7 +31,7 @@ client.on('message', async (msg) => {
 
     if (!isGroup) {
         if(clients.includes(msg.from)) {
-            dbService.getMessage((reply) => {
+            dbService.getReply((reply) => {
                 console.log(`Old client`)
                 console.log('From db: ' + reply)
 
