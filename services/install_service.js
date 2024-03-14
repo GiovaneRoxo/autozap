@@ -8,6 +8,7 @@ const service = new Service({
 
 service.on('install', function() {
     service.start();
+    console.log('Install complete.');
 })
 
 service.install();
